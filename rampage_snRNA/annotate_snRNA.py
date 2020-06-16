@@ -8,6 +8,7 @@ Options:
     --version                      Show version.
     -a snRNA                       snRNA annotations (BED format).
     --extend length                snRNA extended length. [default: 50]
+    --span span                    span cutoff. [default: 1000]
     --coverage coverage            Coverage cutoff. [default: 0.5]
     -o out                         Output file. [default: snRNA_peak.txt]
 '''
@@ -27,6 +28,7 @@ def annotate(options):
     '''
     # check options
     extend = int(options['--extend'])
+    span = int(options['--span'])
     coverage_percentage = float(options['--coverage'])
     output = options['-o']
     # prepare tmp files
@@ -51,6 +53,8 @@ def annotate(options):
     # filter snRNA peaks
     peak_lst = defaultdict(list)
     for p in snRNA_peak:
+        if not check_span(p, span):
+            continue
         summit = int(p[6])
         snRNA_chr = p[13]
         snRNA_start = int(p[14])
@@ -122,6 +126,29 @@ def parse_snRNA(options):
             name = items[index['n']]
             strand = items[index['t']]
             yield (chrom, start, end, name, strand)
+
+
+def check_span(peak, span_cutoff):
+    span = [int(x) for x in peak[11].split('|')]
+    count = [float(x) for x in peak[12].split('|')]
+    span_lst = {span[i]: count[i] for i in range(len(span))}
+    effective_span = fetch_span(span_lst)
+    if effective_span <= span_cutoff:
+        return True
+    else:
+        return False
+
+
+def fetch_span(span_lst):
+    total = 0.75 * sum(span_lst.values())
+    counts = 0
+    span = None
+    for s in sorted(span_lst):
+        counts += span_lst[s]
+        if counts >= total:
+            span = s
+            break
+    return span
 
 
 if __name__ == '__main__':
