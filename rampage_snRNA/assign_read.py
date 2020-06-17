@@ -78,16 +78,17 @@ def assign_read(options):
                 read_span = str(peak_summit - read_start)
             if read_name == 'unique':  # unique
                 # write unique pairs
-                link_out.write('{}\tunique\t1\n'.format(read_info))
+                link_out.write('{}\tunique\t{}\n'.format(read_info,
+                                                         read_count))
                 peak_uniq_count[peak_info] += read_count
-                peak_span[peak_info][read_span] += 1
+                peak_span[peak_info][read_span] += read_count
             else:  # multiple
                 peak_multi_count[read_name].add(peak_info)
                 read_peak_id = '\t'.join([read_name, peak_info])
                 # ! Note: read_span added here
                 read_info += '\t{}'.format(read_span)
                 multi_read_info[read_peak_id] = read_info
-        # remove unique reads in multiple sets
+        # remove unique reads in multiple set
         for read_peak in multi_read_info:
             read, peak = read_peak_id.split('\t', 1)
             if len(peak_multi_count[read]) == 1:  # overlap only one peak
