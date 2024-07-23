@@ -2,7 +2,7 @@
 
 ## A schematic flow shows the pipeline
 
-![workflow](https://github.com/kepbod/rampage_snRNA/blob/master/workflow.jpg)
+![workflow](https://github.com/kepbod/rampage_snRNA/blob/master/workflow.jpeg)
 
 ## Prerequisites
 
