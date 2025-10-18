@@ -132,8 +132,8 @@ Format of `rampage_peak_entropy.txt`:
 | End_Fseq    | End of F-seq peak region      |
 | Total       | Total reads of peak region    |
 | Entropy     | Entropy of RAMPAGE peak       |
-| Positions of 3' ends | 3' ends of read pairs in the peak| 
-|Read counts of each 3' end|Read counts of each 3' end  in the peak| 
+| Positions_of_3'_ends | 3' ends of read pairs in the peak| 
+|Read_counts_of_each_3'_end|Read counts of each 3' end in the peak| 
 
 Note:
 
